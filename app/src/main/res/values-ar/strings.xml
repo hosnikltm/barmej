@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ملاحظة</string>
+    <string name="add_new_item_description">يمكنك إضافة ملاحظة إلى القائمة و اختيار نوع ولون الملاحظة.</string>
+    <string name="add">اضافة</string>
+    <string name="add_note_title_task">اضيف اعنوان</string>
+    <string name="add_note">اضيف ملاحظة</string>
+    <string name="check_item_menu">تحقق العناصر القائمة</string>
+    <string name="delete">حذف</string>
+    <string name="update">تعديل</string>
+    <string name="enter_title_photo">الرجاء إدخال عنوان ملاحظة الصورة</string>
+    <string name="enter_note_please">الرجاء إدخال ملاحظة</string>
+    <string name="enter_title_task">الرجاء إدخال اعنوان المهام</string>
+    <string name="todo">todo</string>
+    <string name="failed_load_image">فشل تحميل الصورة</string>
+    <string name="permission_denied">تم رفض الإذن. لا يمكن الوصول إلى المعرض</string>
+    <string name="note_has_been_saved">الحمدلله تم حفظ الملاحظة بنجاح</string>
+    <string name="updated_successfully">الحمدلله تم تحديث بنجاح</string>
+    <string name="in_progress">في تَقَدم</string>
+    <string name="no1">لا</string>
+    <string name="yes1">نعم</string>
+    <string name="this_task">تأكيد الاكتمال</string>
+    <string name="completion">ما هو وضع هذه المهمة؟</string>
+</resources>

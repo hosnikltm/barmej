@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/list_menu_id"
+        android:icon="@drawable/ic_list_24"
+        android:title="List Menu"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
+    <item
+        android:id="@+id/grid_menu_id"
+        android:icon="@drawable/ic_card_24"
+        android:title="Grid Menu"
+        app:showAsAction="ifRoom"/>
+</menu>
