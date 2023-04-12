@@ -13,4 +13,8 @@
         android:icon="@drawable/ic_card_24"
         android:title="Grid Menu"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/grid_remove_all"
+        android:icon="@drawable/ic_remove_all"
+        android:title="Remove All"/>
 </menu>

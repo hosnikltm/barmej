@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.NoteA
     }
 
     // استجابة للاختيارات في القائمة
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -100,7 +100,11 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.NoteA
                 // جعل العنصر الآخر مرئيًا
                listMenu.findItem(R.id.list_menu_id).setVisible(true);
                 return true;
-
+            case R.id.grid_remove_all:
+                noteList.clear();
+                saveNotes();
+                noteAdapter.notifyDataSetChanged();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

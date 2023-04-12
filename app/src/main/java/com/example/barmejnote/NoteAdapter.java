@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -91,6 +93,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         noteViewHolder.dateTextView.setText(format.format(note.getDate()));
                     }
                     noteItemPopupMenu(noteViewHolder.imageNoteMenu, position, note);
+                    timeDateUtils(note,noteViewHolder.dateTimeTextView);
                     break;
                 // عندما يكون نوع حامل العرض هو TYPE_NOTE_PHOTO ، احصل على مثيل NotePHOTOViewHolder من الحامل
                 case TYPE_NOTE_PHOTO:
@@ -103,6 +106,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         notePhotoViewHolder.dateTextView.setText(format.format(note.getDate()));
                     }
                     noteItemPopupMenu(notePhotoViewHolder.photoMenuImageView, position, note);
+                    timeDateUtils(note,notePhotoViewHolder.dateTimePhotoTextView);
                     break;
                 // عندما يكون نوع حامل العرض هو TYPE_NOTE_CHECK ، احصل على مثيل NoteCheckViewHolder من الحامل
                 case TYPE_NOTE_CHECK:
@@ -154,6 +158,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                     // قم بتعيين قائمة منبثقة على imageCheckMenu ImageView لإظهار خيارات للمستخدم لتحديث الملاحظة أو حذفها
                     noteItemPopupMenu(noteCheckViewHolder.imageCheckMenu, position, note);
+                    timeDateUtils(note, noteCheckViewHolder.dateTimeCheckTextView);
 
                     break;
             }
@@ -237,9 +242,10 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        private final TextView  subtitleTextView, dateTextView;
+        private final TextView  subtitleTextView, dateTextView, dateTimeTextView;
         private final ImageView imageNoteMenu;
         private final LinearLayout linearLayout;
+        private final CardView cardView;
 
         public NoteViewHolder(View itemView) {
             super(itemView);
@@ -248,11 +254,13 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             dateTextView = itemView.findViewById(R.id.dateNoteTextView);
             imageNoteMenu = itemView.findViewById(R.id.image_note_menu);
             linearLayout = itemView.findViewById(R.id.linear_note);
+            dateTimeTextView = itemView.findViewById(R.id.dateNoteTextViewTime);
+            cardView = itemView.findViewById(R.id.card_view_note);
         }
     }
 
     public static class NotePhotoViewHolder extends RecyclerView.ViewHolder {
-        private final TextView titleTextView, dateTextView;
+        private final TextView titleTextView, dateTextView, dateTimePhotoTextView;
         private final ImageView photoImageView, photoMenuImageView;
         private final LinearLayout linearLayout;
 
@@ -264,11 +272,12 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             dateTextView = itemView.findViewById(R.id.datePhotoTextView);
             linearLayout = itemView.findViewById(R.id.linear_photo);
             photoMenuImageView = itemView.findViewById(R.id.image_photo_note_menu);
+            dateTimePhotoTextView = itemView.findViewById(R.id.datePhotoTextViewTime);
         }
     }
 
     public static class NoteCheckViewHolder extends RecyclerView.ViewHolder {
-        private final TextView titleTextView, dateTextView;
+        private final TextView titleTextView, dateTextView, dateTimeCheckTextView;
         private final CheckBox taskCheckBox;
         private final ImageView imageCheckMenu;
         private final LinearLayout linearLayout;
@@ -281,7 +290,16 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             dateTextView = itemView.findViewById(R.id.dateCheckTextView);
             imageCheckMenu = itemView.findViewById(R.id.image_check_note_menu);
             linearLayout = itemView.findViewById(R.id.linear_check);
+            dateTimeCheckTextView = itemView.findViewById(R.id.dateCheckTextViewTime);
         }
+    }
+    @SuppressLint("DefaultLocale")
+    protected void timeDateUtils(Note note , TextView time){
+        long now = System.currentTimeMillis();
+        long timeElapsed = now - note.getDate().getTime();
+        CharSequence relativeTime = DateUtils.getRelativeTimeSpanString(note.getDate().getTime(), now, DateUtils.MINUTE_IN_MILLIS);
+        time.setText(relativeTime);
+
     }
     //تحدد هذه الواجهة الإجراءات التي يمكن تنفيذها على ملاحظة في عرض جهاز إعادة التدوير.
     public interface NoteActionListener{

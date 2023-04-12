@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class AddNewNoteActivity extends AppCompatActivity {
     private  RadioButton photoRadioButton;
     private RadioButton noteRadioButton;
     private RadioButton checkRadioButton;
+    private RadioGroup mNoteRadioGroup, mColorRadioGroup;
     private CardView photoCardView, noteCardView, checkCardView;
     private EditText photoNoteEditText, noteEditText, checkNoteEditText;
 
@@ -117,56 +119,57 @@ public class AddNewNoteActivity extends AppCompatActivity {
 
     // مستمع لأزرار الراديو
     private void radioButtonListener() {
-        // المستمع لزر راديو الصورة
-        photoRadioButton.setOnCheckedChangeListener((compoundButton, checked) -> {
-            if (checked) {
-                // إذا تم تحديد زر راديو للصورة ، فقم بإظهار  شاشة ادخال ملاحظة الصور وإخفاء الآخرين
-                photoCardView.setVisibility(View.VISIBLE);
-                noteCardView.setVisibility(View.GONE);
-                checkCardView.setVisibility(View.GONE);
-                createPhotoNote(); // Call createPhotoNote() method
+
+        // إعداد مستمع مجموعة ملاحظة الراديو
+        mColorRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    // إذا تم تحديد زر الاختيار الأزرق ، فاضبط لون الخلفية على "الأزرق"
+                    case R.id.radioButtonBlue:
+                        colorBackground = "blue";
+                        break;
+                    // إذا تم تحديد زر الاختيار الأصفر ، فاضبط لون الخلفية على "أصفر"
+                    case R.id.radioButtonYellow:
+                        colorBackground = "yellow";
+                        break;
+                    // إذا تم تحديد زر الاختيار الأحمر ، فاضبط لون الخلفية على "أحمر"
+                    case R.id.radioButtonRed:
+                        colorBackground = "red";
+                        break;
+                }
             }
         });
-        // المستمع لزر راديو الملاحظات
-        noteRadioButton.setOnCheckedChangeListener((compoundButton, checked) -> {
-            if (checked) {
-                // إذا تم تحديد زر راديو الملاحظة ، فقم بإظهار شاشة ادخال الملاحظة وإخفاء الآخرين
-                photoCardView.setVisibility(View.GONE);
-                noteCardView.setVisibility(View.VISIBLE);
-                checkCardView.setVisibility(View.GONE);
-            }
-        });
-        // المستمع لزر  خانة الاختيار
-        checkRadioButton.setOnCheckedChangeListener((compoundButton, checked) -> {
-            if (checked) {
-                // إذا تم تحديد زر الراديو في خانة الاختيار ، فقم بإظهار ادخال المهام وإخفاء الآخرين
-                photoCardView.setVisibility(View.GONE);
-                noteCardView.setVisibility(View.GONE);
-                checkCardView.setVisibility(View.VISIBLE);
+        // إعداد مستمع مجموعة ملاحظة الراديو
+        mNoteRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radioButtonNote:
+                        // إذا تم تحديد زر راديو الملاحظة ، فقم بإظهار شاشة ادخال الملاحظة وإخفاء الآخرين
+                        photoCardView.setVisibility(View.GONE);
+                        noteCardView.setVisibility(View.VISIBLE);
+                        checkCardView.setVisibility(View.GONE);
+                        break;
+                    case R.id.radioButtonCheck:
+                        // إذا تم تحديد زر الراديو في خانة الاختيار ، فقم بإظهار ادخال المهام وإخفاء الآخرين
+                        photoCardView.setVisibility(View.GONE);
+                        noteCardView.setVisibility(View.GONE);
+                        checkCardView.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.radioButtonPhoto:
+                        // إذا تم تحديد زر راديو للصورة ، فقم بإظهار  شاشة ادخال ملاحظة الصور وإخفاء الآخرين
+                        photoCardView.setVisibility(View.VISIBLE);
+                        noteCardView.setVisibility(View.GONE);
+                        checkCardView.setVisibility(View.GONE);
+                        createPhotoNote(); // Call createPhotoNote() method
+                        break;
+                }
             }
         });
 
-        // المستمع زر الراديو اللون الأزرق
-        blueRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // إذا تم تحديد زر الاختيار الأزرق ، فاضبط لون الخلفية على "الأزرق"
-                colorBackground = "blue";
-            }
-        });
-        // المستمع زر الراديو اللون الأصفر
-        yellowRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked){
-                // إذا تم تحديد زر الاختيار الأصفر ، فاضبط لون الخلفية على "أصفر"
-                colorBackground = "yellow";
-            }
-        });
-        // المستمع زر الراديو اللون الأحمر
-        redRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // إذا تم تحديد زر الاختيار الأحمر ، فاضبط لون الخلفية على "أحمر"
-                colorBackground = "red";
-            }
-        });
     }
 
     // طريقة إستدعاء و تهيئة جميع عناصر واجهة إضافة الملاحظات
@@ -186,6 +189,8 @@ public class AddNewNoteActivity extends AppCompatActivity {
         redRadioButton = findViewById(R.id.radioButtonRed);
         saveButton = findViewById(R.id.button_submit);
         updateButton = findViewById(R.id.button_update);
+        mNoteRadioGroup = findViewById(R.id.typeRadioGroup);
+        mColorRadioGroup = findViewById(R.id.colorRadioGroup);
     }
 
     // هذه الدالة يتأكد من أن الصلاحية المطلوبة
@@ -247,22 +252,22 @@ public class AddNewNoteActivity extends AppCompatActivity {
         String uniqueId = UUID.randomUUID().toString();
         Note note = null;
 
-        String noteText, noteType;
+        String  noteType;
         if (photoRadioButton.isChecked()) {
             // جلب نص الملاحظة ونوعها في حال كانت ملاحظة صورة
-            noteText = photoNoteEditText.getText().toString();
+            String notePhotoText = photoNoteEditText.getText().toString();
             noteType = "TYPE_PHOTO_NOTE";
             // يتم تحقق اذا كان النص غير فارغ
-            if (!TextUtils.isEmpty(noteText)) {
+            if (!TextUtils.isEmpty(notePhotoText) && !TextUtils.isEmpty(noteImagePath)) {
                 // إنشاء الملاحظة الجديدة
-                note = new Note(uniqueId, noteText, noteImagePath, new Date(), colorBackground, noteType);
+                note = new Note(uniqueId, notePhotoText, noteImagePath, new Date(), colorBackground, noteType);
             }else{
                 //  اذا كان النص فارغ عرض رسالة للمستخدم
                 Toast.makeText(this, R.string.enter_title_photo, Toast.LENGTH_SHORT).show();
             }
         } else if (noteRadioButton.isChecked()) {
             // جلب نص الملاحظة ونوعها في حال كانت ملاحظة نصية
-            noteText = noteEditText.getText().toString();
+            String noteText = noteEditText.getText().toString();
             // يتم تحقق اذا كان النص غير فارغ
             if (!TextUtils.isEmpty(noteText)) {
                 noteType = "TYPE_NOTE";
@@ -274,12 +279,12 @@ public class AddNewNoteActivity extends AppCompatActivity {
             }
         } else if (checkRadioButton.isChecked()) {
             // جلب نص الملاحظة ونوعها في حال كانت ملاحظة مهام
-            noteText = checkNoteEditText.getText().toString();
+            String noteCheckText = checkNoteEditText.getText().toString();
             noteType = "TYPE_NOTE_CHECK";
             // يتم تحقق اذا كان النص غير فارغ
-            if (!TextUtils.isEmpty(noteText)) {
+            if (!TextUtils.isEmpty(noteCheckText)) {
                 // إنشاء الملاحظة الجديدة
-                note = new Note(uniqueId, noteText, false, new Date(), colorBackground, noteType);
+                note = new Note(uniqueId, noteCheckText, false, new Date(), colorBackground, noteType);
             }else {
                 //  اذا كان النص فارغ عرض رسالة للمستخدم
                 Toast.makeText(this, R.string.enter_title_task, Toast.LENGTH_SHORT).show();
